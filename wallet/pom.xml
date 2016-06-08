@@ -52,13 +52,13 @@
 		<!-- com.google.litecoin.* -->
 		<dependency>
 			<groupId>com.google</groupId>
-			<artifactId>litecoinj</artifactId>
-			<version>0.85-SNAPSHOT</version>
+			<artifactId>colchestercoinj</artifactId>
+			<version>0.10.1.1</version>
 		</dependency>
 
 		<!-- de.schildbach.wallet.litecoin.integration.android.* -->
 		<dependency>
-			<groupId>de.schildbach.wallet.litecoin</groupId>
+			<groupId>de.schildbach.wallet.colchestercoin</groupId>
 			<artifactId>integration-android</artifactId>
 			<version>1.0</version>
 		</dependency>
