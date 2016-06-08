@@ -10,7 +10,7 @@
 	<name>Litecoin Wallet</name>
 
 	<parent>
-		<groupId>de.schildbach.wallet.litecoin</groupId>
+		<groupId>de.schildbach.wallet.colchestercoin</groupId>
 		<artifactId>base</artifactId>
 		<version>1</version>
 	</parent>

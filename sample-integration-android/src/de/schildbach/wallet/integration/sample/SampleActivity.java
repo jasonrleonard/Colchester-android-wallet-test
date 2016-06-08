@@ -27,7 +27,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import de.schildbach.wallet.litecoin.integration.android.LitecoinIntegration;
+import de.schildbach.wallet.colchestercoin.integration.android.LitecoinIntegration;
 
 /**
  * @author Andreas Schildbach
