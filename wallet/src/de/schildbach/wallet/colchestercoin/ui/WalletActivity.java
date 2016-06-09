@@ -71,8 +71,8 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.litecoin.core.ECKey;
-import com.google.litecoin.core.Wallet;
+import com.google.colchestercoin.core.ECKey;
+import com.google.colchestercoin.core.Wallet;
 
 import de.schildbach.wallet.colchestercoin.Constants;
 import de.schildbach.wallet.colchestercoin.WalletApplication;
@@ -723,7 +723,7 @@ public final class WalletActivity extends AbstractWalletActivity
 				@Override
 				protected CharSequence collectWalletDump()
 				{
-					return wallet.toString(false, null);
+					return wallet.toString(false,false,false,null);
 				}
 			};
 
@@ -891,7 +891,7 @@ public final class WalletActivity extends AbstractWalletActivity
 			final File file = new File(Constants.EXTERNAL_WALLET_BACKUP_DIR, Constants.EXTERNAL_WALLET_KEY_BACKUP + "-"
 					+ Iso8601Format.newDateFormat().format(date) + "-" + date.getTime());
 
-			final ArrayList<ECKey> keys = wallet.keychain;
+			final ArrayList<ECKey> keys = (ArrayList<ECKey>) wallet.getKeys();
 
 			final StringWriter plainOut = new StringWriter();
 			WalletUtils.writeKeys(plainOut, keys);
@@ -928,12 +928,12 @@ public final class WalletActivity extends AbstractWalletActivity
                         .setMessage(message)
                         .setNeutralButton(R.string.button_import_into_new_app, new OnClickListener() {
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                // Throw import intent to litecoin app
+                                // Throw import intent to colchestercoin app
                                 Intent sendIntent = new Intent();
                                 sendIntent.setAction(Intent.ACTION_VIEW);
                                 Uri uri = Uri.fromFile(file);
                                 Log.i(TAG, "URI to file: " + uri);
-                                sendIntent.setDataAndType(uri, "x-litecoin/private-keys");
+                                sendIntent.setDataAndType(uri, "x-colchestercoin/private-keys");
                                 // Verify that the intent will resolve to an activity
                                 if (sendIntent.resolveActivity(getPackageManager()) != null) {
                                     startActivity(sendIntent);

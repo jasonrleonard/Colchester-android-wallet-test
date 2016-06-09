@@ -19,9 +19,9 @@ package de.schildbach.wallet.colchestercoin.service;
 
 import java.util.List;
 
-import com.google.litecoin.core.Peer;
-import com.google.litecoin.core.StoredBlock;
-import com.google.litecoin.core.Transaction;
+import com.google.colchestercoin.core.Peer;
+import com.google.colchestercoin.core.StoredBlock;
+import com.google.colchestercoin.core.Transaction;
 
 import de.schildbach.wallet.colchestercoin.R;
 

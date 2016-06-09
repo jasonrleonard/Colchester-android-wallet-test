@@ -7,7 +7,7 @@
 	<artifactId>wallet</artifactId>
 	<packaging>apk</packaging>
 	<version>1.099</version>
-	<name>Litecoin Wallet</name>
+	<name>colchestercoin Wallet</name>
 
 	<parent>
 		<groupId>de.schildbach.wallet.colchestercoin</groupId>
@@ -49,14 +49,14 @@
 			<type>apklib</type>
 		</dependency>
 
-		<!-- com.google.litecoin.* -->
+		<!-- com.google.colchestercoin.core* -->
 		<dependency>
 			<groupId>com.google</groupId>
 			<artifactId>colchestercoinj</artifactId>
 			<version>0.10.1.1</version>
 		</dependency>
 
-		<!-- de.schildbach.wallet.litecoin.integration.android.* -->
+		<!-- de.schildbach.wallet.colchestercoin.integration.android.* -->
 		<dependency>
 			<groupId>de.schildbach.wallet.colchestercoin</groupId>
 			<artifactId>integration-android</artifactId>

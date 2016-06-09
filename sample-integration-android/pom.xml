@@ -25,7 +25,7 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- de.schildbach.wallet.litecoin.integration.android.* -->
+		<!-- de.schildbach.wallet.colchestercoin.integration.android.* -->
 		<dependency>
 			<groupId>de.schildbach.wallet.colchestercoin</groupId>
 			<artifactId>integration-android</artifactId>

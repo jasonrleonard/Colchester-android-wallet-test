@@ -32,11 +32,11 @@ import android.os.Bundle;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.litecoin.core.ProtocolException;
-import com.google.litecoin.core.Sha256Hash;
-import com.google.litecoin.core.Transaction;
-import com.google.litecoin.core.VerificationException;
-import com.google.litecoin.core.Wallet;
+import com.google.colchestercoin.core.ProtocolException;
+import com.google.colchestercoin.core.Sha256Hash;
+import com.google.colchestercoin.core.Transaction;
+import com.google.colchestercoin.core.VerificationException;
+import com.google.colchestercoin.core.Wallet;
 
 import de.schildbach.wallet.colchestercoin.Constants;
 import de.schildbach.wallet.colchestercoin.WalletApplication;
@@ -181,7 +181,7 @@ public final class TransactionActivity extends AbstractWalletActivity
 		transactionFragment.update(tx);
 
 		if (nfcManager != null)
-			NfcTools.publishMimeObject(nfcManager, this, Constants.MIMETYPE_TRANSACTION, tx.unsafeLitecoinSerialize(), false);
+			NfcTools.publishMimeObject(nfcManager, this, Constants.MIMETYPE_TRANSACTION, tx.unsafeBitcoinSerialize(), false);
 	}
 
 	private void processPendingTransaction(final Transaction tx)

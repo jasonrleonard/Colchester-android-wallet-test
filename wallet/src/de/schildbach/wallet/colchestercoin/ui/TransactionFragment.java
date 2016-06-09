@@ -39,11 +39,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.google.litecoin.core.Address;
-import com.google.litecoin.core.ScriptException;
-import com.google.litecoin.core.Transaction;
-import com.google.litecoin.core.TransactionConfidence.ConfidenceType;
-import com.google.litecoin.core.Wallet;
+import com.google.colchestercoin.core.Address;
+import com.google.colchestercoin.core.ScriptException;
+import com.google.colchestercoin.core.Transaction;
+import com.google.colchestercoin.core.TransactionConfidence.ConfidenceType;
+import com.google.colchestercoin.core.Wallet;
 
 import de.schildbach.wallet.colchestercoin.AddressBookProvider;
 import de.schildbach.wallet.colchestercoin.Constants;
@@ -94,7 +94,7 @@ public final class TransactionFragment extends SherlockFragment
 	{
 		final Wallet wallet = ((WalletApplication) activity.getApplication()).getWallet();
 
-		final byte[] serializedTx = tx.unsafeLitecoinSerialize();
+		final byte[] serializedTx = tx.unsafeBitcoinSerialize();
 
 		Address from = null;
 		boolean fromMine = false;
@@ -112,7 +112,7 @@ public final class TransactionFragment extends SherlockFragment
 		boolean toMine = false;
 		try
 		{
-			to = tx.getOutputs().get(0).getScriptPubKey().getToAddress();
+			to = tx.getOutputs().get(0).getScriptPubKey().getToAddress(tx.getParams());
 			toMine = wallet.isPubKeyHashMine(to.getHash160());
 		}
 		catch (final ScriptException x)
@@ -228,9 +228,9 @@ public final class TransactionFragment extends SherlockFragment
 
 		final TextView viewStatus = (TextView) view.findViewById(R.id.transaction_fragment_status);
 		final ConfidenceType confidenceType = tx.getConfidence().getConfidenceType();
-		if (confidenceType == ConfidenceType.DEAD || confidenceType == ConfidenceType.NOT_IN_BEST_CHAIN)
+		if (confidenceType == ConfidenceType.DEAD || confidenceType == ConfidenceType.DEAD)
 			viewStatus.setText(R.string.transaction_fragment_status_dead);
-		else if (confidenceType == ConfidenceType.NOT_SEEN_IN_CHAIN)
+		else if (confidenceType == ConfidenceType.UNKNOWN)
 			viewStatus.setText(R.string.transaction_fragment_status_pending);
 		else if (confidenceType == ConfidenceType.BUILDING)
 			viewStatus.setText(R.string.transaction_fragment_status_confirmed);

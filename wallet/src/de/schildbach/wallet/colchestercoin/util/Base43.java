@@ -19,7 +19,7 @@ package de.schildbach.wallet.colchestercoin.util;
 import java.math.BigInteger;
 import java.util.Arrays;
 
-import com.google.litecoin.core.Utils;
+import com.google.colchestercoin.core.Utils;
 
 /**
  * Base43, derived from Base58

@@ -45,10 +45,10 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.litecoin.core.Address;
-import com.google.litecoin.core.AddressFormatException;
-import com.google.litecoin.uri.LitecoinURI;
-import com.google.litecoin.uri.LitecoinURIParseException;
+import com.google.colchestercoin.core.Address;
+import com.google.colchestercoin.core.AddressFormatException;
+import com.google.colchestercoin.uri.ColchestercoinURI;
+import com.google.colchestercoin.uri.ColchestercoinURIParseException;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentIntegratorSupportV4;
@@ -144,7 +144,7 @@ public final class SendingAddressesFragment extends SherlockListFragment impleme
         Log.i(this.getClass().toString(), "on Scan Activity Result");
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if(scanResult != null) {
-            LitecoinURI uri = WalletUtils.parseAddressString(scanResult.getContents());
+            ColchestercoinURI uri = WalletUtils.parseAddressString(scanResult.getContents());
             if(uri != null) {
                 try
                 {
@@ -309,7 +309,7 @@ public final class SendingAddressesFragment extends SherlockListFragment impleme
 
 	private void handleShowQr(final String address)
 	{
-		final String uri = LitecoinURI.convertToLitecoinURI(address, null, null, null);
+		final String uri = ColchestercoinURI.convertToBitcoinURI(address, null, null, null);
 		final int size = (int) (256 * getResources().getDisplayMetrics().density);
 		BitmapFragment.show(getFragmentManager(), WalletUtils.getQRCodeBitmap(uri, size));
 	}

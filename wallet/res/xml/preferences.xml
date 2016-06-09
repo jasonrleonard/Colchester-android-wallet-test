@@ -67,7 +67,7 @@
 			android:entryValues="@array/preferences_precision_values"
 			android:key="ltc_precision"
 			android:summary="This does not affect computations. It is used for saving view space only."
-			android:title="Precision of Litecoin values" />
+			android:title="Precision of colchestercoin values" />
 
 		<CheckBoxPreference
 			android:defaultValue="true"

@@ -29,8 +29,8 @@ import android.support.v4.view.ViewPager;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.litecoin.core.Address;
-import com.google.litecoin.core.ECKey;
+import com.google.colchestercoin.core.Address;
+import com.google.colchestercoin.core.ECKey;
 
 import de.schildbach.wallet.colchestercoin.Constants;
 import de.schildbach.wallet.colchestercoin.util.ViewPagerTabs;
@@ -112,7 +112,7 @@ public final class AddressBookActivity extends AbstractWalletActivity
 
 	/* private */void updateFragments()
 	{
-		final ArrayList<ECKey> keychain = getWalletApplication().getWallet().keychain;
+		final ArrayList<ECKey> keychain = (ArrayList<ECKey>) getWalletApplication().getWallet().getKeys();
 		final ArrayList<Address> addresses = new ArrayList<Address>(keychain.size());
 
 		for (final ECKey key : keychain)

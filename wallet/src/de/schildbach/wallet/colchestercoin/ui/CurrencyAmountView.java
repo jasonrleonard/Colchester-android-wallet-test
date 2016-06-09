@@ -40,7 +40,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.google.litecoin.core.Utils;
+import com.google.colchestercoin.core.Utils;
 
 import de.schildbach.wallet.colchestercoin.Constants;
 import de.schildbach.wallet.colchestercoin.util.WalletUtils;
@@ -124,7 +124,7 @@ public final class CurrencyAmountView extends FrameLayout
 		contextButton.setLayoutParams(chooseViewParams);
 		this.addView(contextButton);
 
-		setCurrencyCode(Constants.CURRENCY_CODE_LITECOIN);
+		setCurrencyCode(Constants.CURRENCY_CODE_colchestercoin);
 
 		updateAppearance();
 	}

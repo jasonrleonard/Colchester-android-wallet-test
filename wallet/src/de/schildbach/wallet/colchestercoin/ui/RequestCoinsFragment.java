@@ -42,9 +42,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.ShareActionProvider;
-import com.google.litecoin.core.Address;
-import com.google.litecoin.core.ECKey;
-import com.google.litecoin.uri.LitecoinURI;
+import com.google.colchestercoin.core.Address;
+import com.google.colchestercoin.core.ECKey;
+import com.google.colchestercoin.uri.ColchestercoinURI;
 
 import de.schildbach.wallet.colchestercoin.AddressBookProvider;
 import de.schildbach.wallet.colchestercoin.Constants;
@@ -111,7 +111,7 @@ public final class RequestCoinsFragment extends SherlockFragment implements Amou
 		});
 
 		addressView = (Spinner) view.findViewById(R.id.request_coins_fragment_address);
-		final ArrayList<ECKey> keys = application.getWallet().keychain;
+		final ArrayList<ECKey> keys = (ArrayList<ECKey>) application.getWallet().getKeys();
 		final WalletAddressesAdapter adapter = new WalletAddressesAdapter(activity, keys, false);
 		addressView.setAdapter(adapter);
 		final Address selectedAddress = application.determineSelectedAddress();
@@ -277,7 +277,7 @@ public final class RequestCoinsFragment extends SherlockFragment implements Amou
         } catch (NullPointerException e) {
             // Not really sure why this is happening.
             // Bug #5
-            Log.e("Litecoin", "NullPointerException when trying to start request coins intent.");
+            Log.e("colchestercoin", "NullPointerException when trying to start request coins intent.");
             Toast.makeText(activity.getApplicationContext(), "Failed to start Request Coins activity",
                     Toast.LENGTH_SHORT).show();
         }
@@ -287,12 +287,12 @@ public final class RequestCoinsFragment extends SherlockFragment implements Amou
 	{
 		final boolean includeLabel = includeLabelView.isChecked();
 
-		final ECKey key = application.getWallet().keychain.get(addressView.getSelectedItemPosition());
+		final ECKey key = application.getWallet().getKeys().get(addressView.getSelectedItemPosition());
 		final Address address = key.toAddress(Constants.NETWORK_PARAMETERS);
 		final String label = includeLabel ? AddressBookProvider.resolveLabel(activity, address.toString()) : null;
 		final BigInteger amount = amountView.getAmount();
 
-		return LitecoinURI.convertToLitecoinURI(address, amount, label, null).toString();
+		return ColchestercoinURI.convertToBitcoinURI(address, amount, label, null).toString();
 	}
 
 	public void useCalculatedAmount(final BigInteger amount)

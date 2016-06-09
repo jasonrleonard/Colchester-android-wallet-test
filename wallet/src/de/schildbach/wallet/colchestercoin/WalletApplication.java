@@ -44,11 +44,13 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.litecoin.core.Address;
-import com.google.litecoin.core.ECKey;
-import com.google.litecoin.core.Wallet;
-import com.google.litecoin.store.WalletProtobufSerializer;
+import com.google.colchestercoin.core.Address;
+import com.google.colchestercoin.core.ECKey;
+import com.google.colchestercoin.core.Wallet;
+import com.google.colchestercoin.store.UnreadableWalletException;
+import com.google.colchestercoin.store.WalletProtobufSerializer;
 
+import com.google.colchestercoin.wallet.WalletFiles;
 import de.schildbach.wallet.colchestercoin.service.BlockchainService;
 import de.schildbach.wallet.colchestercoin.service.BlockchainServiceImpl;
 import de.schildbach.wallet.colchestercoin.util.CrashReporter;
@@ -68,7 +70,7 @@ public class WalletApplication extends Application
 	private ActivityManager activityManager;
 
 	private static final Charset UTF_8 = Charset.forName("UTF-8");
-	private static final String TAG = "Litecoin"+WalletApplication.class.getSimpleName();
+	private static final String TAG = "colchestercoin"+WalletApplication.class.getSimpleName();
 
 	@Override
 	public void onCreate()
@@ -106,7 +108,7 @@ public class WalletApplication extends Application
 		wallet.autosaveToFile(walletFile, 1, TimeUnit.SECONDS, new WalletAutosaveEventListener());
 	}
 
-	private static final class WalletAutosaveEventListener implements Wallet.AutosaveEventListener
+	private static final class WalletAutosaveEventListener implements WalletFiles.Listener
 	{
 		public boolean caughtException(final Throwable t)
 		{
@@ -176,23 +178,25 @@ public class WalletApplication extends Application
 
 				Log.i(TAG, "wallet loaded from: '" + walletFile + "', took " + (System.currentTimeMillis() - start) + "ms");
 			}
-			catch (final IOException x)
+			catch (final IOException x) {
+                x.printStackTrace();
+
+                Toast.makeText(WalletApplication.this, x.getClass().getName(), Toast.LENGTH_LONG).show();
+
+                wallet = restoreWalletFromBackup();
+
+            }
+
+            catch (final IllegalStateException x)
 			{
 				x.printStackTrace();
 
 				Toast.makeText(WalletApplication.this, x.getClass().getName(), Toast.LENGTH_LONG).show();
 
 				wallet = restoreWalletFromBackup();
-			}
-			catch (final IllegalStateException x)
-			{
-				x.printStackTrace();
-
-				Toast.makeText(WalletApplication.this, x.getClass().getName(), Toast.LENGTH_LONG).show();
-
-				wallet = restoreWalletFromBackup();
-			}
-			finally
+			} catch (UnreadableWalletException e) {
+                e.printStackTrace();
+            } finally
 			{
 				if (walletStream != null)
 				{
@@ -356,13 +360,13 @@ public class WalletApplication extends Application
 	private void writeKeys(final OutputStream os) throws IOException
 	{
 		final Writer out = new OutputStreamWriter(os, UTF_8);
-		WalletUtils.writeKeys(out, wallet.keychain);
+		WalletUtils.writeKeys(out, wallet.getKeys());
 		out.close();
 	}
 
 	public Address determineSelectedAddress()
 	{
-		final ArrayList<ECKey> keychain = wallet.keychain;
+		final ArrayList<ECKey> keychain = (ArrayList<ECKey>) wallet.getKeys();
 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		final String selectedAddress = prefs.getString(Constants.PREFS_KEY_SELECTED_ADDRESS, null);
@@ -396,7 +400,7 @@ public class WalletApplication extends Application
 	public void resetBlockchain()
 	{
 		// actually stops the service
-        Log.d("Litecoin", "Sending blockchain service reset intent");
+        Log.d("colchestercoin", "Sending blockchain service reset intent");
 		startService(blockchainServiceResetBlockchainIntent);
         android.os.Process.killProcess(android.os.Process.myPid());
 	}

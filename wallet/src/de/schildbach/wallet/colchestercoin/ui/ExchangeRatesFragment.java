@@ -43,9 +43,9 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.litecoin.core.Utils;
-import com.google.litecoin.core.Wallet;
-import com.google.litecoin.core.Wallet.BalanceType;
+import com.google.colchestercoin.core.Utils;
+import com.google.colchestercoin.core.Wallet;
+import com.google.colchestercoin.core.Wallet.BalanceType;
 
 import de.schildbach.wallet.colchestercoin.Constants;
 import de.schildbach.wallet.colchestercoin.ExchangeRatesProvider;
@@ -70,7 +70,7 @@ public final class ExchangeRatesFragment extends SherlockListFragment implements
 	private BigInteger balance;
 	private String defaultCurrency;
 
-	private final ThrottelingWalletChangeListener walletChangeListener = new ThrottelingWalletChangeListener()
+	public final ThrottelingWalletChangeListener walletChangeListener = new ThrottelingWalletChangeListener()
 	{
 		@Override
 		public void onThrotteledWalletChanged()
@@ -235,7 +235,7 @@ public final class ExchangeRatesFragment extends SherlockListFragment implements
 
 	public Loader<Cursor> onCreateLoader(final int id, final Bundle args)
 	{
-        Log.d("Litecoin", "ExchangeRateProvider Key: " + activity.getPackageName());
+        Log.d("colchestercoin", "ExchangeRateProvider Key: " + activity.getPackageName());
         return new CursorLoader(activity, ExchangeRatesProvider.contentUri(activity.getPackageName()), null, null, null, null);
 	}
 

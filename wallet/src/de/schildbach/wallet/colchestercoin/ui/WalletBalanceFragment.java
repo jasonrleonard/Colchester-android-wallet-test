@@ -38,8 +38,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
-import com.google.litecoin.core.Wallet;
-import com.google.litecoin.core.Wallet.BalanceType;
+import com.google.colchestercoin.core.Wallet;
+import com.google.colchestercoin.core.Wallet.BalanceType;
 
 import de.schildbach.wallet.colchestercoin.Constants;
 import de.schildbach.wallet.colchestercoin.ExchangeRatesProvider;
@@ -47,6 +47,7 @@ import de.schildbach.wallet.colchestercoin.ExchangeRatesProvider.ExchangeRate;
 import de.schildbach.wallet.colchestercoin.WalletApplication;
 import de.schildbach.wallet.colchestercoin.util.ThrottelingWalletChangeListener;
 import de.schildbach.wallet.colchestercoin.util.WalletUtils;
+import de.schildbach.wallet.colchestercoin.*;
 import de.schildbach.wallet.colchestercoin.R;
 
 /**
@@ -116,7 +117,7 @@ public final class WalletBalanceFragment extends Fragment
 		super.onViewCreated(view, savedInstanceState);
 
 		viewBalance = (CurrencyTextView) view.findViewById(R.id.wallet_balance);
-		viewBalance.setPrefix(Constants.CURRENCY_CODE_LITECOIN);
+		viewBalance.setPrefix(Constants.CURRENCY_CODE_colchestercoin);
 
 		viewBalanceLocal = (CurrencyTextView) view.findViewById(R.id.wallet_balance_local);
 		viewBalanceLocal.setPrecision(Constants.LOCAL_PRECISION);

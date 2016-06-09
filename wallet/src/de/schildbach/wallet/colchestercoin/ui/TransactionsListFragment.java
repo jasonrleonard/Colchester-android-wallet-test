@@ -53,11 +53,12 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.litecoin.core.Address;
-import com.google.litecoin.core.ScriptException;
-import com.google.litecoin.core.Transaction;
-import com.google.litecoin.core.TransactionConfidence.ConfidenceType;
-import com.google.litecoin.core.Wallet;
+import com.google.colchestercoin.core.Address;
+import com.google.colchestercoin.core.ScriptException;
+import com.google.colchestercoin.core.Transaction;
+import com.google.colchestercoin.core.TransactionConfidence.ConfidenceType;
+import com.google.colchestercoin.core.Wallet;
+import com.google.colchestercoin.*;
 
 import de.schildbach.wallet.colchestercoin.AddressBookProvider;
 import de.schildbach.wallet.colchestercoin.Constants;
@@ -288,7 +289,7 @@ public class TransactionsListFragment extends SherlockListFragment implements Lo
 		adapter.clear();
 	}
 
-	private final ThrottelingWalletChangeListener transactionChangeListener = new ThrottelingWalletChangeListener(THROTTLE_MS)
+	public final ThrottelingWalletChangeListener transactionChangeListener = new ThrottelingWalletChangeListener (THROTTLE_MS)
 	{
 		@Override
 		public void onThrotteledWalletChanged()
@@ -334,7 +335,7 @@ public class TransactionsListFragment extends SherlockListFragment implements Lo
 		@Override
 		public List<Transaction> loadInBackground()
 		{
-			final Set<Transaction> transactions = wallet.getTransactions(true, false);
+			final Set<Transaction> transactions = wallet.getTransactions(true);
 			final List<Transaction> filteredTransactions = new ArrayList<Transaction>(transactions.size());
 
 			try
@@ -369,7 +370,7 @@ public class TransactionsListFragment extends SherlockListFragment implements Lo
                     // I don't know how I can set the policy on this underneath AsyncTaskLoader
                     // Ideally, I'd like to use ThreadPoolExecutor.DiscardOldestPolicy
                     // This would just kill the oldest task and add this one.
-                    Log.d("Litecoin", "RejectedExecutionException on forceLoad()");
+                    Log.d("colchestercoin", "RejectedExecutionException on forceLoad()");
                 }
 			}
 		};
@@ -378,8 +379,8 @@ public class TransactionsListFragment extends SherlockListFragment implements Lo
 		{
 			public int compare(final Transaction tx1, final Transaction tx2)
 			{
-				final boolean pending1 = tx1.getConfidence().getConfidenceType() == ConfidenceType.NOT_SEEN_IN_CHAIN;
-				final boolean pending2 = tx2.getConfidence().getConfidenceType() == ConfidenceType.NOT_SEEN_IN_CHAIN;
+				final boolean pending1 = tx1.getConfidence().getConfidenceType() == ConfidenceType.UNKNOWN;
+				final boolean pending2 = tx2.getConfidence().getConfidenceType() == ConfidenceType.UNKNOWN;
 
 				if (pending1 != pending2)
 					return pending1 ? -1 : 1;

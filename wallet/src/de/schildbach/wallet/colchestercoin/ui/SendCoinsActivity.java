@@ -27,8 +27,8 @@ import android.webkit.WebView;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.litecoin.uri.LitecoinURI;
-import com.google.litecoin.uri.LitecoinURIParseException;
+import com.google.colchestercoin.uri.ColchestercoinURI;
+import com.google.colchestercoin.uri.ColchestercoinURIParseException;
 import de.schildbach.wallet.colchestercoin.R;
 
 import java.math.BigInteger;
@@ -113,16 +113,16 @@ public final class SendCoinsActivity extends AbstractWalletActivity
 		final String addressLabel;
 		final BigInteger amount;
 
-		if ((Intent.ACTION_VIEW.equals(action) || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) && intentUri != null && "litecoin".equals(scheme))
+		if ((Intent.ACTION_VIEW.equals(action) || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) && intentUri != null && "colchestercoin".equals(scheme))
 		{
 			try
 			{
-				final LitecoinURI litecoinUri = new LitecoinURI(null, intentUri.toString());
-				address = litecoinUri.getAddress().toString();
-				addressLabel = litecoinUri.getLabel();
-				amount = litecoinUri.getAmount();
+				final ColchestercoinURI ColchestercoinURI = new ColchestercoinURI(null, intentUri.toString());
+				address = ColchestercoinURI.getAddress().toString();
+				addressLabel = ColchestercoinURI.getLabel();
+				amount = ColchestercoinURI.getAmount();
 			}
-			catch (final LitecoinURIParseException x)
+			catch (final ColchestercoinURIParseException x)
 			{
 				parseErrorDialog(intentUri.toString());
 				return;

@@ -28,6 +28,6 @@ public class CameraSupportManager extends PlatformSupportManager<CameraInterface
 	{
 		super(CameraInterface.class, new DefaultCameraInterface());
 
-		//addImplementationClass(Build.VERSION_CODES.GINGERBREAD, "de.schildbach.wallet.litecoin.camera.GingerbreadCameraInterface");
+		//addImplementationClass(Build.VERSION_CODES.GINGERBREAD, "de.schildbach.wallet.colchestercoin.camera.GingerbreadCameraInterface");
 	}
 }

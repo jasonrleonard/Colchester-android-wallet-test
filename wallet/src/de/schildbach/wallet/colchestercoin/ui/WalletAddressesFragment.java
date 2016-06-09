@@ -41,9 +41,9 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.litecoin.core.Address;
-import com.google.litecoin.core.ECKey;
-import com.google.litecoin.uri.LitecoinURI;
+import com.google.colchestercoin.core.Address;
+import com.google.colchestercoin.core.ECKey;
+import com.google.colchestercoin.uri.ColchestercoinURI;
 
 import de.schildbach.wallet.colchestercoin.AddressBookProvider;
 import de.schildbach.wallet.colchestercoin.Constants;
@@ -236,7 +236,7 @@ public final class WalletAddressesFragment extends SherlockListFragment
 
 			private void handleShowQr(final Address address)
 			{
-				final String uri = LitecoinURI.convertToLitecoinURI(address, null, null, null);
+				final String uri = ColchestercoinURI.convertToBitcoinURI(address, null, null, null);
 				final int size = (int) (256 * getResources().getDisplayMetrics().density);
 				BitmapFragment.show(getFragmentManager(), WalletUtils.getQRCodeBitmap(uri, size));
 			}

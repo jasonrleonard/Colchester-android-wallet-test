@@ -47,18 +47,18 @@ import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
 
 import android.util.Log;
-import com.google.litecoin.core.Address;
-import com.google.litecoin.core.AddressFormatException;
-import com.google.litecoin.core.DumpedPrivateKey;
-import com.google.litecoin.core.ECKey;
-import com.google.litecoin.core.ScriptException;
-import com.google.litecoin.core.Sha256Hash;
-import com.google.litecoin.core.Transaction;
-import com.google.litecoin.core.TransactionInput;
-import com.google.litecoin.core.TransactionOutput;
-import com.google.litecoin.core.Utils;
-import com.google.litecoin.uri.LitecoinURI;
-import com.google.litecoin.uri.LitecoinURIParseException;
+import com.google.colchestercoin.core.Address;
+import com.google.colchestercoin.core.AddressFormatException;
+import com.google.colchestercoin.core.DumpedPrivateKey;
+import com.google.colchestercoin.core.ECKey;
+import com.google.colchestercoin.core.ScriptException;
+import com.google.colchestercoin.core.Sha256Hash;
+import com.google.colchestercoin.core.Transaction;
+import com.google.colchestercoin.core.TransactionInput;
+import com.google.colchestercoin.core.TransactionOutput;
+import com.google.colchestercoin.core.Utils;
+import com.google.colchestercoin.uri.ColchestercoinURI;
+import com.google.colchestercoin.uri.ColchestercoinURIParseException;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -232,7 +232,7 @@ public class WalletUtils
 		{
 			for (final TransactionOutput output : tx.getOutputs())
 			{
-				return output.getScriptPubKey().getToAddress();
+				return output.getScriptPubKey().getToAddress(tx.getParams());
 			}
 
 			throw new IllegalStateException();
@@ -247,7 +247,7 @@ public class WalletUtils
 	{
 		final DateFormat format = Iso8601Format.newDateTimeFormatT();
 
-		out.write("# KEEP YOUR PRIVATE KEYS SAFE! Anyone who can read this can spend your Litecoins.\n");
+		out.write("# KEEP YOUR PRIVATE KEYS SAFE! Anyone who can read this can spend your colchestercoins.\n");
 
 		for (final ECKey key : keys)
 		{
@@ -279,7 +279,7 @@ public class WalletUtils
 
 				final String[] parts = line.split(" ");
 
-				final ECKey key = new DumpedPrivateKey(Constants.NETWORK_PARAMETERS, parts[0], false).getKey();
+				final ECKey key = new DumpedPrivateKey(Constants.NETWORK_PARAMETERS, parts[0].getBytes(), false).getKey();
 				key.setCreationTimeSeconds(parts.length >= 2 ? format.parse(parts[1]).getTime() / DateUtils.SECOND_IN_MILLIS : 0);
 
 				keys.add(key);
@@ -346,23 +346,23 @@ public class WalletUtils
 		}
 	}
 
-    public static LitecoinURI parseAddressString(String addressString) {
+    public static ColchestercoinURI parseAddressString(String addressString) {
         if (addressString == null) return null;
-        Log.d("Litecoin", "Parsing: " + addressString);
+        Log.d("colchestercoin", "Parsing: " + addressString);
         try {
-            final LitecoinURI uri = new LitecoinURI(Constants.NETWORK_PARAMETERS, addressString);
-            Log.d("Litecoin", "URI: " + uri.getAddress().toString() + " " + uri.getLabel() + " " + uri.getAmount());
+            final ColchestercoinURI uri = new ColchestercoinURI(Constants.NETWORK_PARAMETERS, addressString);
+            Log.d("colchestercoin", "URI: " + uri.getAddress().toString() + " " + uri.getLabel() + " " + uri.getAmount());
             return uri;
         }
-        catch (final LitecoinURIParseException x)
+        catch (final ColchestercoinURIParseException x)
         {
-            // Try prepending litecoin:
+            // Try prepending colchestercoin:
             try {
-                final LitecoinURI uri = new LitecoinURI(Constants.NETWORK_PARAMETERS, "litecoin:" + addressString);
-                Log.d("Litecoin", "URI: " + uri.getAddress().toString() + " " + uri.getLabel() + " " + uri.getAmount());
+                final ColchestercoinURI uri = new ColchestercoinURI(Constants.NETWORK_PARAMETERS, "colchestercoin:" + addressString);
+                Log.d("colchestercoin", "URI: " + uri.getAddress().toString() + " " + uri.getLabel() + " " + uri.getAmount());
                 return uri;
             }
-            catch (final LitecoinURIParseException y)
+            catch (final ColchestercoinURIParseException y)
             {
                 return null;
             }

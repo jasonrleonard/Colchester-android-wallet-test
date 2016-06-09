@@ -40,7 +40,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.format.DateUtils;
 
-import com.google.litecoin.core.Utils;
+import com.google.colchestercoin.core.Utils;
 
 import de.schildbach.wallet.colchestercoin.util.IOUtils;
 
@@ -91,7 +91,7 @@ public class ExchangeRatesProvider extends ContentProvider
 
 		if (exchangeRates == null || now - lastUpdated > UPDATE_FREQ_MS)
 		{
-			Map<String, ExchangeRate> newExchangeRates = getLitecoinCharts();
+			Map<String, ExchangeRate> newExchangeRates = getcolchestercoinCharts();
 			if (exchangeRates == null && newExchangeRates == null)
 				newExchangeRates = getBlockchainInfo();
 
@@ -122,7 +122,7 @@ public class ExchangeRatesProvider extends ContentProvider
             try {
 			  cursor.newRow().add(code.hashCode()).add(rate.currencyCode).add(rate.rate.longValue()).add(rate.source);
             } catch (NullPointerException e) {
-                Log.e("Litecoin", "Unable to add an exchange rate.  NullPointerException.");
+                Log.e("colchestercoin", "Unable to add an exchange rate.  NullPointerException.");
             }
 		}
 
@@ -162,7 +162,7 @@ public class ExchangeRatesProvider extends ContentProvider
 		throw new UnsupportedOperationException();
 	}
 
-	private static Map<String, ExchangeRate> getLitecoinCharts()
+	private static Map<String, ExchangeRate> getcolchestercoinCharts()
 	{
         final Map<String, ExchangeRate> rates = new TreeMap<String, ExchangeRate>();
         // Keep the BTC rate around for a bit

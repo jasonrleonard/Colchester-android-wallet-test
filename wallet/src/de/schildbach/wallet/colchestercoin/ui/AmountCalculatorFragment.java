@@ -37,7 +37,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.litecoin.core.Utils;
+import com.google.colchestercoin.core.Utils;
 
 import de.schildbach.wallet.colchestercoin.Constants;
 import de.schildbach.wallet.colchestercoin.ExchangeRatesProvider;

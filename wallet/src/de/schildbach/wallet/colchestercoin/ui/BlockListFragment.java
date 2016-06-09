@@ -42,8 +42,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.google.litecoin.core.Block;
-import com.google.litecoin.core.StoredBlock;
+import com.google.colchestercoin.core.Block;
+import com.google.colchestercoin.core.StoredBlock;
 
 import de.schildbach.wallet.colchestercoin.Constants;
 import de.schildbach.wallet.colchestercoin.service.BlockchainService;

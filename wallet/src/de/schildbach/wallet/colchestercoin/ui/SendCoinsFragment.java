@@ -55,12 +55,12 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.litecoin.core.*;
-import com.google.litecoin.core.TransactionConfidence.ConfidenceType;
-import com.google.litecoin.core.Wallet.BalanceType;
-import com.google.litecoin.core.Wallet.SendRequest;
-import com.google.litecoin.uri.LitecoinURI;
-import com.google.litecoin.uri.LitecoinURIParseException;
+import com.google.colchestercoin.core.*;
+import com.google.colchestercoin.core.TransactionConfidence.ConfidenceType;
+import com.google.colchestercoin.core.Wallet.BalanceType;
+import com.google.colchestercoin.core.Wallet.SendRequest;
+import com.google.colchestercoin.uri.ColchestercoinURI;
+import com.google.colchestercoin.uri.ColchestercoinURIParseException;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentIntegratorSupportV4;
@@ -68,7 +68,7 @@ import com.google.zxing.integration.android.IntentResult;
 import de.schildbach.wallet.colchestercoin.AddressBookProvider;
 import de.schildbach.wallet.colchestercoin.Constants;
 import de.schildbach.wallet.colchestercoin.WalletApplication;
-import de.schildbach.wallet.colchestercoin.integration.android.LitecoinIntegration;
+import de.schildbach.wallet.colchestercoin.integration.android.colchestercoinIntegration;
 import de.schildbach.wallet.colchestercoin.service.BlockchainService;
 import de.schildbach.wallet.colchestercoin.service.BlockchainServiceImpl;
 import de.schildbach.wallet.colchestercoin.util.WalletUtils;
@@ -167,7 +167,7 @@ public final class SendCoinsFragment extends SherlockFragment implements AmountC
 		public void changed()
 		{
 			dismissPopup();
-            Log.d("Litecoin", "Amount: " + amountView.getAmount() + ", Fee: " + feeView.getAmount());
+            Log.d("colchestercoin", "Amount: " + amountView.getAmount() + ", Fee: " + feeView.getAmount());
 			validateAmounts(false);
 		}
 
@@ -196,9 +196,8 @@ public final class SendCoinsFragment extends SherlockFragment implements AmountC
 		}
 	};
 
-	private final TransactionConfidence.Listener sentTransactionConfidenceListener = new TransactionConfidence.Listener()
-	{
-		public void onConfidenceChanged(final Transaction tx)
+	private final TransactionConfidence.Listener sentTransactionConfidenceListener = new TransactionConfidence.Listener(){
+				public void onconfidencechanged(final Transaction tx)
 		{
 			activity.runOnUiThread(new Runnable()
 			{
@@ -399,7 +398,7 @@ public final class SendCoinsFragment extends SherlockFragment implements AmountC
 
 				final AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
 				dialog.setMessage(getString(R.string.send_coins_dialog_fee_message,
-						Constants.CURRENCY_CODE_LITECOIN + " " + WalletUtils.formatValue(Constants.DEFAULT_TX_FEE, Constants.LTC_PRECISION)));
+						Constants.CURRENCY_CODE_colchestercoin + " " + WalletUtils.formatValue(Constants.DEFAULT_TX_FEE, Constants.LTC_PRECISION)));
 				if (allowLowFee)
 				{
 					dialog.setPositiveButton(R.string.send_coins_dialog_fee_button_send, new DialogInterface.OnClickListener()
@@ -652,7 +651,7 @@ public final class SendCoinsFragment extends SherlockFragment implements AmountC
 		dismissPopup();
 
 		final CurrencyTextView viewAvailable = (CurrencyTextView) popupAvailableView.findViewById(R.id.send_coins_popup_available_amount);
-		viewAvailable.setPrefix(Constants.CURRENCY_CODE_LITECOIN);
+		viewAvailable.setPrefix(Constants.CURRENCY_CODE_colchestercoin);
 		viewAvailable.setAmount(available);
 
 		final TextView viewPending = (TextView) popupAvailableView.findViewById(R.id.send_coins_popup_available_pending);
@@ -700,8 +699,8 @@ public final class SendCoinsFragment extends SherlockFragment implements AmountC
                 final Transaction transaction = wallet.createSend(sendRequest);
                 int txSize = transaction.getOutputs().size();
                 // Get the size of the transaction
-                Log.d("Litecoin", "Transaction size is " + txSize);
-                /* From official Litecoin wallet.cpp
+                Log.d("colchestercoin", "Transaction size is " + txSize);
+                /* From official colchestercoin wallet.cpp
                     // Check that enough fee is included
                     int64_t nPayFee = nTransactionFee * (1 + (int64_t)nBytes / 1000);
                     bool fAllowFree = AllowFree(dPriority);
@@ -720,7 +719,7 @@ public final class SendCoinsFragment extends SherlockFragment implements AmountC
                 BigInteger nPayFee = nTransactionFee.multiply(multiplicand);
                 if(sendRequest.fee.compareTo(nPayFee.max(nMinFee)) < 0)
                 {
-                    Log.i("LitecoinSendCoins", "Recalculated fee: " +
+                    Log.i("colchestercoinSendCoins", "Recalculated fee: " +
                             sendRequest.fee.toString() + " < " + nPayFee.max(nMinFee).toString());
                     sendRequest.fee = nPayFee.max(nMinFee);
 
@@ -742,7 +741,7 @@ public final class SendCoinsFragment extends SherlockFragment implements AmountC
                                         try {
                                             wallet.commitTx(sendRequest.tx);
                                         } catch (VerificationException e) {
-                                            Log.i("LitecoinSendCoins", "VerificationException: " + e);
+                                            Log.i("colchestercoinSendCoins", "VerificationException: " + e);
                                             return;
                                         }
                                         // Fees are agreeable
@@ -757,7 +756,7 @@ public final class SendCoinsFragment extends SherlockFragment implements AmountC
                     try {
                         wallet.commitTx(sendRequest.tx);
                     } catch (VerificationException e) {
-                        Log.i("LitecoinSendCoins", "VerificationException: " + e);
+                        Log.i("colchestercoinSendCoins", "VerificationException: " + e);
                         return;
                     }
                     handler.post(new TransactionRunnable(transaction));
@@ -786,7 +785,7 @@ public final class SendCoinsFragment extends SherlockFragment implements AmountC
             service.broadcastTransaction(sentTransaction);
 
             final Intent result = new Intent();
-            LitecoinIntegration.transactionHashToResult(result, sentTransaction.getHashAsString());
+            colchestercoinIntegration.transactionHashToResult(result, sentTransaction.getHashAsString());
             activity.setResult(Activity.RESULT_OK, result);
 
             // final String label = AddressBookProvider.resolveLabel(contentResolver,
@@ -807,7 +806,7 @@ public final class SendCoinsFragment extends SherlockFragment implements AmountC
         super.onActivityResult(requestCode, resultCode, intent);
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
-            LitecoinURI uri = WalletUtils.parseAddressString(scanResult.getContents());
+            ColchestercoinURI uri = WalletUtils.parseAddressString(scanResult.getContents());
             if(uri != null)
                 update(uri.getAddress().toString(), uri.getLabel(), uri.getAmount());
         }

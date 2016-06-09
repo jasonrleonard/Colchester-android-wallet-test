@@ -30,8 +30,8 @@ import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.widget.RemoteViews;
 
-import com.google.litecoin.core.Wallet;
-import com.google.litecoin.core.Wallet.BalanceType;
+import com.google.colchestercoin.core.Wallet;
+import com.google.colchestercoin.core.Wallet.BalanceType;
 
 import de.schildbach.wallet.colchestercoin.ui.RequestCoinsActivity;
 import de.schildbach.wallet.colchestercoin.ui.SendCoinsActivity;

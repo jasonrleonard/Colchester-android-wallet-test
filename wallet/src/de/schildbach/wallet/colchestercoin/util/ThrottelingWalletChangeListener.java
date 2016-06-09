@@ -25,10 +25,10 @@ import java.util.concurrent.atomic.AtomicLong;
 import android.os.Handler;
 
 import android.util.Log;
-import com.google.litecoin.core.ECKey;
-import com.google.litecoin.core.Transaction;
-import com.google.litecoin.core.Wallet;
-import com.google.litecoin.core.WalletEventListener;
+import com.google.colchestercoin.core.ECKey;
+import com.google.colchestercoin.core.Transaction;
+import com.google.colchestercoin.core.Wallet;
+import com.google.colchestercoin.core.WalletEventListener;
 
 /**
  * @author Andreas Schildbach
@@ -94,7 +94,7 @@ public abstract class ThrottelingWalletChangeListener implements WalletEventList
 			    onThrotteledWalletChanged();
 		    } catch(RejectedExecutionException e)
             {
-                Log.d("Litecoin", "RejectExecutionException calling onThrotteledWalletChanged");
+                Log.d("colchestercoin", "RejectExecutionException calling onThrotteledWalletChanged");
             }
         }
 	};

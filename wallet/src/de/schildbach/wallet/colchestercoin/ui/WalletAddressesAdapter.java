@@ -30,8 +30,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.google.litecoin.core.Address;
-import com.google.litecoin.core.ECKey;
+import com.google.colchestercoin.core.Address;
+import com.google.colchestercoin.core.ECKey;
 
 import de.schildbach.wallet.colchestercoin.AddressBookProvider;
 import de.schildbach.wallet.colchestercoin.Constants;

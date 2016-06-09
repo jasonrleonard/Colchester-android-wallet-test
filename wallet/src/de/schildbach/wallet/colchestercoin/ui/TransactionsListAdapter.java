@@ -36,12 +36,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.google.litecoin.core.Address;
-import com.google.litecoin.core.ScriptException;
-import com.google.litecoin.core.Transaction;
-import com.google.litecoin.core.TransactionConfidence;
-import com.google.litecoin.core.TransactionConfidence.ConfidenceType;
-import com.google.litecoin.core.Wallet;
+import com.google.colchestercoin.core.Address;
+import com.google.colchestercoin.core.ScriptException;
+import com.google.colchestercoin.core.Transaction;
+import com.google.colchestercoin.core.TransactionConfidence;
+import com.google.colchestercoin.core.TransactionConfidence.ConfidenceType;
+import com.google.colchestercoin.core.Wallet;
 
 import de.schildbach.wallet.colchestercoin.AddressBookProvider;
 import de.schildbach.wallet.colchestercoin.Constants;
@@ -71,7 +71,7 @@ public class TransactionsListAdapter extends BaseAdapter
 	private final Map<String, String> labelCache = new HashMap<String, String>();
 	private final static String CACHE_NULL_MARKER = "";
 
-	private static final String CONFIDENCE_SYMBOL_NOT_IN_BEST_CHAIN = "!";
+	//private static final String CONFIDENCE_SYMBOL_DEAD = "!";
 	private static final String CONFIDENCE_SYMBOL_DEAD = "\u271D"; // latin cross
 	private static final String CONFIDENCE_SYMBOL_UNKNOWN = "?";
 
@@ -160,7 +160,7 @@ public class TransactionsListAdapter extends BaseAdapter
 			final TextView rowConfidenceTextual = (TextView) row.findViewById(R.id.transaction_row_confidence_textual);
 
 			final int textColor;
-			if (confidenceType == ConfidenceType.NOT_SEEN_IN_CHAIN)
+			if (confidenceType == ConfidenceType.UNKNOWN)
 			{
 				final boolean isValid = isOwn && confidence.numBroadcastPeers() > 1;
 
@@ -187,13 +187,13 @@ public class TransactionsListAdapter extends BaseAdapter
 				rowConfidenceCircular.setMaxSize(1);
 				rowConfidenceCircular.setColors(colorCircularBuilding, Color.DKGRAY);
 			}
-			else if (confidenceType == ConfidenceType.NOT_IN_BEST_CHAIN)
+			else if (confidenceType == ConfidenceType.DEAD)
 			{
 				rowConfidenceCircular.setVisibility(View.GONE);
 				rowConfidenceTextual.setVisibility(View.VISIBLE);
 				textColor = colorSignificant;
 
-				rowConfidenceTextual.setText(CONFIDENCE_SYMBOL_NOT_IN_BEST_CHAIN);
+				rowConfidenceTextual.setText(CONFIDENCE_SYMBOL_DEAD);
 				rowConfidenceTextual.setTextColor(Color.RED);
 			}
 			else if (confidenceType == ConfidenceType.DEAD)
@@ -247,25 +247,25 @@ public class TransactionsListAdapter extends BaseAdapter
 			final TextView rowMessage = (TextView) row.findViewById(R.id.transaction_row_message);
 			final boolean isLocked = tx.getLockTime() > 0;
 			rowExtend.setVisibility(View.GONE);
-			if (isOwn && confidenceType == ConfidenceType.NOT_SEEN_IN_CHAIN && confidence.numBroadcastPeers() <= 1)
+			if (isOwn && confidenceType == ConfidenceType.UNKNOWN && confidence.numBroadcastPeers() <= 1)
 			{
 				rowExtend.setVisibility(View.VISIBLE);
 				rowMessage.setText(R.string.transaction_row_message_own_unbroadcasted);
 				rowMessage.setTextColor(colorInsignificant);
 			}
-			else if (!sent && confidenceType == ConfidenceType.NOT_SEEN_IN_CHAIN && isLocked)
+			else if (!sent && confidenceType == ConfidenceType.UNKNOWN && isLocked)
 			{
 				rowExtend.setVisibility(View.VISIBLE);
 				rowMessage.setText(R.string.transaction_row_message_received_unconfirmed_locked);
 				rowMessage.setTextColor(colorError);
 			}
-			else if (!sent && confidenceType == ConfidenceType.NOT_SEEN_IN_CHAIN && !isLocked)
+			else if (!sent && confidenceType == ConfidenceType.UNKNOWN && !isLocked)
 			{
 				rowExtend.setVisibility(View.VISIBLE);
 				rowMessage.setText(R.string.transaction_row_message_received_unconfirmed_unlocked);
 				rowMessage.setTextColor(colorInsignificant);
 			}
-			else if (!sent && confidenceType == ConfidenceType.NOT_IN_BEST_CHAIN)
+			else if (!sent && confidenceType == ConfidenceType.DEAD)
 			{
 				rowExtend.setVisibility(View.VISIBLE);
 				rowMessage.setText(R.string.transaction_row_message_received_unconfirmed_unlocked);
